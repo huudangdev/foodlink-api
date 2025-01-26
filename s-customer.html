@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hóa Đơn ShopeeFood</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      .invoice {
+        background: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        width: 400px;
+      }
+      .invoice-header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .invoice-header h1 {
+        margin: 0;
+        font-size: 18px;
+      }
+      .invoice-header p {
+        margin: 5px 0;
+        font-size: 14px;
+        color: #555;
+      }
+      .divider {
+        border-bottom: 1px solid #ddd;
+        margin: 15px 0;
+      }
+      .invoice-section {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+      .bold {
+        font-weight: bold;
+      }
+      .total {
+        font-size: 16px;
+        font-weight: bold;
+        text-align: right;
+      }
+      .text-right {
+        text-align: right;
+      }
+      .item {
+        display: flex;
+        justify-content: space-between;
+      }
+      .small {
+        font-size: 12px;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="invoice">
+      <div class="invoice-header">
+        <h1>ShopeeFood</h1>
+        <p>The Fresh Garden - Cold Pressed Juice, Fruit & Coffee</p>
+        <p>Đường Số 4</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="invoice-section">
+        <p><span class="bold">Mã đơn hàng:</span> 17104-498865290</p>
+        <p><span class="bold">Driver:</span> Nguyễn Tuấn Tài 5483</p>
+        <p><span class="bold">Thời gian lấy hàng:</span> 17/10/2024 14:10</p>
+        <p><span class="bold">Thời gian in HĐ:</span> 17/10/2024 18:02</p>
+        <p><span class="bold">Khách hàng:</span> Hiền</p>
+        <p>
+          <span class="bold">Địa chỉ:</span> 119/29 Nguyễn Hoàng, An Phú, Quận
+          2, Hồ Chí Minh, 70000, Việt Nam
+        </p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="invoice-section">
+        <div class="item">
+          <span>1. Bánh Flan (1 phần - Chay)</span>
+          <span>x2</span>
+        </div>
+        <p class="text-right">30.000đ</p>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="invoice-section">
+        <div class="item">
+          <span>Tổng món</span>
+          <span>2</span>
+        </div>
+        <div class="item">
+          <span>Tổng tiền món (giá gốc)</span>
+          <span>30.000đ</span>
+        </div>
+        <div class="item">
+          <span>Giảm giá món</span>
+          <span>-0đ</span>
+        </div>
+        <div class="item">
+          <span>Tổng tiền</span>
+          <span>30.000đ</span>
+        </div>
+        <div class="item">
+          <span>Chiết khấu</span>
+          <span>-2.400đ</span>
+        </div>
+        <div class="item">
+          <span>Khuyến mãi khác</span>
+          <span>-20.000đ</span>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="invoice-section total">Tổng tiền: 7.600đ</div>
+    </div>
+  </body>
+</html>
