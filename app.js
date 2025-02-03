@@ -8,7 +8,17 @@ const ping = require("ping");
 const net = require("net");
 
 const app = express();
-const port = 3000;
+//const port = 3000;
+
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Hello from Heroku!");
+});
+
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
@@ -133,6 +143,14 @@ const userSchema = new mongoose.Schema({
     },
   ],
   expoPushToken: String,
+  notifications: [
+    {
+      title: String,
+      message: String,
+      createdAt: Date,
+      seen: Boolean,
+    },
+  ],
 });
 
 const User = mongoose.model("User", userSchema);
@@ -695,6 +713,6 @@ app.delete("/logout-step-2", (req, res) => {
 });
 
 // Start the server
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
 });
