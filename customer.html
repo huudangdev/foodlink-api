@@ -1,92 +1,73 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="vi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GrabFood Receipt</title>
+    <title>Hóa đơn</title>
     <style>
       body {
         font-family: Arial, sans-serif;
-        width: 300px;
-        margin: 0 auto;
-        padding: 20px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #f9f9f9;
+        font-size: 14px;
+        color: #000;
       }
-      h1,
-      h2 {
+      .receipt {
+        width: 300px;
+        border: 1px solid #000;
+        padding: 10px;
+        margin: 0 auto;
+      }
+      .header {
         text-align: center;
         font-weight: bold;
       }
-      .section {
-        margin-bottom: 15px;
-      }
-      .item {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 5px;
-      }
-      .total {
-        font-weight: bold;
-        font-size: 16px;
+      .order-info {
         margin-top: 10px;
       }
+      .order-info p {
+        margin: 5px 0;
+      }
+      .items {
+        margin-top: 10px;
+      }
+      .items p {
+        margin: 5px 0;
+      }
+      .total {
+        margin-top: 10px;
+        font-weight: bold;
+      }
       .footer {
+        margin-top: 10px;
         font-size: 12px;
-        margin-top: 20px;
-        text-align: center;
-        color: #555;
       }
     </style>
   </head>
   <body>
-    <h1>GrabFood</h1>
-    <h2>GF-889</h2>
-
-    <div class="section">
-      <p><strong>***** Sao chep (2) *****</strong></p>
-      <p><strong>Lay don luc 5/1/2025, 12:45:24</strong></p>
-      <p>Don cua ***</p>
-    </div>
-
-    <div class="section">
-      <p>1 mon</p>
-      <p>✔ Can dung cu an uong</p>
-      <p>
-        Doi voi nhung mon da het, vui long xem ghi chu cua khach hang tren ung
-        dung
-      </p>
-    </div>
-
-    <div class="section">
-      <div class="item">
-        <span>1 x Cà phê sữa - chai 330ml</span>
-        <span>75.000</span>
+    <div class="receipt">
+      <div class="header">
+        ShopeeFood<br />
+        GrabFood
       </div>
-    </div>
-
-    <div class="section">
-      <div class="item total">
-        <span>Tong (tam tinh):</span>
-        <span>75.000</span>
+      <div class="order-info">
+        <p>GF-421</p>
+        <p>Lấy đơn lúc 11:00</p>
+        <p>Đơn của ***</p>
       </div>
-      <div class="item total">
-        <span>Tong cong:</span>
-        <span>75.000</span>
+      <div class="items">
+        <p>1 món</p>
+        <p>✔ Cần dụng cụ ăn uống</p>
+        <p>
+          * Đối với những món đã hết, vui lòng xem ghi chú của khách hàng trên
+          ứng dụng
+        </p>
+        <p>1 x Bánh Flan (1 Hũ) - 15.000đ</p>
+        <p>- Chay</p>
+        <p>- Set 1 - 0đ</p>
       </div>
-    </div>
-
-    <div class="section">
-      <p>GF-889</p>
-      <p>5-CZDKKFMGBCCELE</p>
-      <p>Da dat luc 5/1/2025, 12:45:15</p>
-    </div>
-
-    <div class="footer">
-      <p>
-        Ghi chu cho ***: Vui long kiem tra hoa don cua don hang tren ung dung de
-        biet gia tien chinh xac.
-      </p>
+      <div class="total">
+        <p>Tổng (tạm tính): 15.000đ</p>
+        <p>Tổng cộng: 15</p>
+      </div>
     </div>
   </body>
 </html>

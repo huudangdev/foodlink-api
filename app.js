@@ -16,6 +16,11 @@ app.get("/", (req, res) => {
   res.send("Hello from Heroku!");
 });
 
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: "Internal Server Error" });
+});
+
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}`);
 // });
@@ -42,25 +47,109 @@ mongoose.connect(
 const orderSchema = new mongoose.Schema({
   orderID: String,
   displayID: String,
+  isNew: Boolean,
+  lastStatus: String,
+  username: String,
   driver: {
     ID: Number,
     name: String,
     avatar: String,
   },
   eater: {
-    ID: Number,
     name: String,
+    mobileNumber: String,
+    comment: String,
+    address: {
+      address: String,
+      keywords: String,
+    },
   },
   itemInfo: {
     count: Number,
     items: [
       {
-        itemID: String,
         name: String,
         quantity: Number,
+        fare: {
+          currencySymbol: String,
+          priceDisplay: String,
+          originalItemPriceDisplay: String,
+          beforeAdjustedPriceDisplay: String,
+        },
+        comment: String,
+        modifierGroups: [
+          {
+            modifierGroupID: String,
+            modifierGroupName: String,
+            modifiers: [
+              {
+                modifierID: String,
+                modifierName: String,
+                priceDisplay: String,
+                quantity: Number,
+                revampedPriceDisplay: String,
+                editedStatus: Number,
+              },
+            ],
+          },
+        ],
+        discountInfo: mongoose.Schema.Types.Mixed,
+        itemID: String,
+        editedStatus: Number,
         weight: mongoose.Schema.Types.Mixed,
+        itemCode: String,
+        specialItemType: String,
+        soldByWeight: Boolean,
+        outOfStockInstruction: mongoose.Schema.Types.Mixed,
+        parentID: String,
+        parentName: String,
+        skuID: String,
+        isAddedAsReplacement: Boolean,
       },
     ],
+    merchantItems: mongoose.Schema.Types.Mixed,
+  },
+  fare: {
+    currencySymbol: String,
+    totalInCent: Number,
+    adjustmentByDriverInCent: Number,
+    totalDisplay: String,
+    subTotalDisplay: String,
+    taxDisplay: String,
+    adjustmentByDriverDisplay: String,
+    promotionDisplay: String,
+    deliveryFeeDisplay: String,
+    passengerTotalDisplay: String,
+    totalDiscountAmountDisplay: String,
+    reducedPriceDisplay: String,
+    revampedSubtotalDisplay: String,
+    cancelledDisplay: String,
+    taxRate: String,
+    merchantChargeDisplay: String,
+    isIncludeMerchantChargeTax: Boolean,
+    subtotalIncludeMerchantCharge: String,
+    chargeFeeDescription: {
+      en: String,
+      id: String,
+      ms: String,
+      th: String,
+      vi: String,
+      zh: String,
+    },
+    smallOrderFeeDisplay: String,
+    serviceChargeFeeDisplay: String,
+    serviceChargeFeeDescription: {
+      en: String,
+      id: String,
+      km: String,
+      ms: String,
+      my: String,
+      th: String,
+      vi: String,
+      zh: String,
+    },
+    daxPayMexFareDisplay: String,
+    mexCommissionDisplay: String,
   },
   times: {
     createdAt: Date,
@@ -75,30 +164,67 @@ const orderSchema = new mongoose.Schema({
     preparationCompletedAt: Date,
   },
   state: String,
+  merchant: {
+    ID: String,
+  },
   deliveryTaskpoolStatus: String,
   preparationTaskpoolStatus: String,
-  scheduleOrderInfo: {
-    isScheduledOrder: Boolean,
-    expectedDeliveryTime: Date,
-    pickupTime: Date,
+  cancelCode: Number,
+  displayID: String,
+  bookingCode: String,
+  paymentMethod: String,
+  acceptedViaCall: Boolean,
+  acceptedViaAA: Boolean,
+  acknowledgedForAA: Boolean,
+  qsrModelType: Number,
+  hasPromo: Boolean,
+  receiptAdditionalInfo: {
+    supportFeatureFlags: {
+      showCashToCollect: Boolean,
+    },
+    printedCount: Number,
   },
-  geAllocationStatus: Number,
+  allowComplete: Boolean,
+  isTakeawayOrder: Boolean,
+  orderLevelDiscounts: mongoose.Schema.Types.Mixed,
+  flags: {
+    showReceiptEaterAddress: Boolean,
+    showForceCompleteButton: Boolean,
+    hideOrderDriverInfo: Boolean,
+    isPrintOrderRevampReceipt: Boolean,
+    isGrabInitiatedSplitOrder: Boolean,
+    isAdsMarketingAttributed: Boolean,
+    isPaxNewCustomer: Boolean,
+    isPayOnCollect: Boolean,
+    merchantFeatureFlags: Number,
+  },
+  scheduledOrderInfo: mongoose.Schema.Types.Mixed,
+  isLargeOrder: Boolean,
+  isEditable: Boolean,
+  isOrderEdited: Boolean,
+  isOrderWithFriends: Boolean,
+  uneditableReason: Number,
+  cutlery: Number,
+  cancelBy: String,
+  cancelRole: String,
+  leadsGenData: {
+    isDeliverByMex: Boolean,
+    isOrderValueLow: Boolean,
+    deliveryFee: String,
+    timeLeftToEnableCompleteButton: Number,
+    geAllocationStatus: Number,
+    grabExpressDriver: mongoose.Schema.Types.Mixed,
+    paxDistanceToMex: Number,
+  },
+  isBusyModeOrder: Boolean,
   busyModeOrderPickupTime: Date,
+  busyModeApproach: Number,
+  payMerchant: Boolean,
+  cancelledMsg: String,
   orderFlags: Number,
   orderStatsFlags: Number,
+  receiptFlags: Number,
   dineInInfo: mongoose.Schema.Types.Mixed,
-  labels: {
-    acceptedViaCall: Boolean,
-    isRead: Boolean,
-    isOrderEdited: Boolean,
-    acceptedViaAA: Boolean,
-    hasPromo: Boolean,
-    isTakeawayOrder: Boolean,
-    isDeliverByMex: Boolean,
-    isBusyModeOrder: Boolean,
-    printCount: Number,
-    isGiftOrder: Boolean,
-  },
   chatroomInfo: {
     roomID: String,
     status: Number,
@@ -126,7 +252,22 @@ const orderSchema = new mongoose.Schema({
     actualOPT: mongoose.Schema.Types.Mixed,
   },
   replacementInfo: mongoose.Schema.Types.Mixed,
+  currency: {
+    code: String,
+    symbol: String,
+    exponent: String,
+    exponentUnit: Number,
+  },
+  orderEarningsInMinorUnit: Number,
+  deliveryStatus: String,
+  createdAt: Date,
+  updatedAt: Date,
+  isAcceptedByAA: Boolean,
+  isScheduledOrder: Boolean,
+  cancelledOriginalPriceDisplay: String,
+  preparationTaskDelayedByMin: Number,
 });
+
 const Order = mongoose.model("Order", orderSchema);
 
 const userSchema = new mongoose.Schema({
@@ -138,8 +279,10 @@ const userSchema = new mongoose.Schema({
   shopeeFoodTokenExpiration: Date,
   printers: [
     {
-      name: String,
-      ip: String,
+      name: { type: String, required: false },
+      ip: { type: String, required: false },
+      type: { type: String, required: false },
+      port: { type: String, required: false },
     },
   ],
   expoPushToken: String,
@@ -189,6 +332,28 @@ const checkAuth = (req, res, next) => {
 //app.use(checkAuth);
 app.use(cors());
 
+const authenticateJWT = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  console.log("Auth header:", authHeader);
+
+  if (authHeader) {
+    const token = authHeader.split(" ")[1];
+    console.log("Token:", token);
+
+    jwt.verify(token, jwtSecret, (err, user) => {
+      if (err) {
+        return res.sendStatus(403);
+      }
+
+      req.user = user;
+      next();
+    });
+  } else {
+    res.sendStatus(401);
+  }
+};
+
 // Hàm kiểm tra cổng của máy in
 const checkPrinterPort = (ip, port) => {
   return new Promise((resolve) => {
@@ -213,11 +378,11 @@ const checkPrinterPort = (ip, port) => {
 
 // Hàm scan mạng cục bộ để tìm máy in
 const scanNetwork = async (baseIP) => {
-  const printerPorts = [9100, 515, 631]; // Các cổng phổ biến cho máy in (RAW, LPD, IPP)
+  const printerPorts = [9100, 515, 631, 139, 445, 3702, 80, 443]; // Các cổng phổ biến cho máy in (RAW, LPD, IPP)
   const devices = [];
   const promises = [];
 
-  console.log("Scanning network...");
+  //console.log("Scanning network...");
 
   for (let i = 1; i <= 255; i++) {
     const ip = `${baseIP}${i}`;
@@ -245,7 +410,7 @@ const scanIP = async (ip, printerPort) => {
     if (res.alive) {
       const isPrinter = await checkPrinterPort(ip, printerPort);
       if (isPrinter) {
-        return { ip, name: `Printer at ${ip}` };
+        return { ip, name: `Printer at ${ip}:${printerPort}` };
       }
     }
   } catch (error) {
@@ -310,6 +475,8 @@ app.post("/auth/login", async (req, res) => {
       user.tokenExpiration = tokenExpiration;
       await user.save();
 
+      console.log("Login successful:", token, tokenExpiration);
+
       res.json({ message: "Login successful", token, tokenExpiration, user });
     } else {
       res.status(401).json({ message: "Invalid username or password" });
@@ -322,6 +489,8 @@ app.post("/auth/login", async (req, res) => {
 app.post("/auth/login-grabfood", async (req, res) => {
   const { grabFoodToken, grabFoodTokenExpiration, username } = req.body;
 
+  //console.log("GrabFood login request:", req.body);
+
   try {
     const user = await User.findOne({ username });
     if (user) {
@@ -329,6 +498,11 @@ app.post("/auth/login-grabfood", async (req, res) => {
       user.grabFoodToken = grabFoodToken;
       user.grabFoodTokenExpiration = grabFoodTokenExpiration;
       await user.save();
+      console.log(
+        "GrabFood login successful:",
+        grabFoodToken,
+        grabFoodTokenExpiration
+      );
 
       res.json({
         message: "GrabFood login successful",
@@ -376,15 +550,24 @@ app.post("/auth/login-shopeefood", async (req, res) => {
 });
 
 app.post("/save-printer", async (req, res) => {
-  const { name, ip, username } = req.body;
+  const { name, ip, type, port, username } = req.body;
 
-  console.log("Save printer request:", req.body);
+  console.log("Save printer request:", name, ip, type, port, username);
 
   try {
     const user = await User.findOne({ username });
+    console.log("Tìm thấy User");
     if (user) {
-      user.printers.push({ name, ip });
+      if (!user.printers) {
+        user.printers = [];
+        console.log("User chưa có printers, tạo mới");
+      }
+      user.set("printers", [...user.printers, { name, ip, type, port }]);
+      console.log("Thêm printer vào User: ", user.printers);
+
+      user.markModified("printers");
       await user.save();
+      //await user.save();
 
       res.json({
         message: "Printer saved successfully",
@@ -394,6 +577,7 @@ app.post("/save-printer", async (req, res) => {
       res.status(404).json({ message: "User not found" });
     }
   } catch (error) {
+    console.error("Lỗi khi lưu máy in:", error); // Log lỗi chi tiết
     res
       .status(500)
       .json({ message: "Error saving printer", error: error.message });
@@ -439,12 +623,32 @@ app.get("/orders", async (req, res) => {
   }
 });
 
+// Function to save notification to user's profile
+const saveNotification = async (username, title, message) => {
+  try {
+    const user = await User.findOne({ username });
+    if (user) {
+      user.notifications.push({
+        title,
+        message,
+        createdAt: new Date(),
+        seen: false,
+      });
+      await user.save();
+    } else {
+      console.log("User not found:", username);
+    }
+  } catch (error) {
+    console.error("Error saving notification:", error.message);
+  }
+};
+
 // Route to check for new and updated orders
 app.get("/check-orders", async (req, res) => {
-  const grabFoodToken = req.headers["authorization"];
-  const url = `https://api.grab.com/food/merchant/v3/orders-pagination?autoAcceptGroup=all&pageType=all`;
+  const { startTime, endTime, pageIndex, pageSize, grabFoodToken, username } =
+    req.query;
+  const url = `https://api.grab.com/food/merchant/v1/reports/daily-pagination?startTime=${startTime}&endTime=${endTime}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
 
-  //console.log("Checking for new and updated orders...", req.headers);
   try {
     const response = await axios.get(url, {
       headers: {
@@ -452,19 +656,48 @@ app.get("/check-orders", async (req, res) => {
       },
     });
 
-    const orders = response.data.orders;
+    const orders = response.data.statements;
     const newOrders = [];
     const updatedOrders = [];
 
-    console.log("Orders:", response);
-
     for (const orderData of orders) {
-      const existingOrder = await Order.findOne({ orderID: orderData.orderID });
+      const existingOrder = await Order.findOne({
+        displayID: orderData.displayID,
+      });
       if (!existingOrder) {
+        const order = new Order({
+          ...orderData,
+          isNew: true,
+          lastStatus: orderData.deliveryStatus,
+          eater: orderData.eater, // Lưu thông tin eater ngay lập tức
+        });
+        await order.save();
         newOrders.push(orderData);
-      } else if (existingOrder.lastStatus !== orderData.state) {
+      } else if (
+        existingOrder.lastStatus !== orderData.deliveryStatus &&
+        existingOrder.isNew
+      ) {
         updatedOrders.push(orderData);
+        existingOrder.isNew = false;
+        existingOrder.lastStatus = orderData.deliveryStatus;
+        await existingOrder.save();
       }
+    }
+
+    // Save notifications for new and updated orders
+    for (const order of newOrders) {
+      await saveNotification(
+        username,
+        "Đơn hàng mới",
+        `Nhận được đơn hàng mới: ${order.displayID}`
+      );
+    }
+    for (const order of updatedOrders) {
+      await saveNotification(
+        username,
+        "Đơn hàng cập nhật",
+        `Đơn hàng ${order.displayID} được cập nhật: ${order.deliveryStatus}`
+      );
     }
 
     res.json({ newOrders, updatedOrders });
@@ -483,35 +716,135 @@ app.get("/scheduled-orders", (req, res) => {
   });
 });
 
-app.get("/order-history", async (req, res) => {
-  const { startTime, endTime, pageIndex, pageSize, grabFoodToken } = req.query;
+app.get("/orders", authenticateJWT, async (req, res) => {
+  const { start, end } = req.query;
+  const username = req.user.username;
 
-  //const url = `https://api.grab.com/food/merchant/v1/reports/daily-pagination?startTime=${startTime}&endTime=${endTime}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
+  try {
+    const orders = await Order.find({
+      username,
+      createdAt: { $gte: new Date(start), $lte: new Date(end) },
+    });
+
+    res.json({
+      message: "Orders fetched successfully",
+      orders,
+    });
+  } catch (error) {
+    console.log("Error fetching orders:", error.message);
+    res.status(500).json({
+      message: "Error fetching orders",
+      error: error.message,
+    });
+  }
+});
+
+app.get("/order-history", async (req, res) => {
+  const { startTime, endTime, pageIndex, pageSize, grabFoodToken, username } =
+    req.query;
+
+  //console.log("Order history request:", req.query);
+
   const url = `https://api.grab.com/food/merchant/v1/reports/daily-pagination?startTime=${startTime}&endTime=${endTime}&pageIndex=${pageIndex}&pageSize=${pageSize}`;
-  //const url =
   try {
     const response = await axios.get(url, {
       headers: {
-        Authorization: grabFoodToken,
+        Authorization: `${grabFoodToken}`,
       },
     });
 
     const statements = response.data.statements;
+    const newOrders = [];
+    const updatedOrders = [];
+
+    // Tạo danh sách đơn hàng chi tiết
     const detailedOrders = await Promise.all(
       statements.map(async (statement) => {
-        const order = await Order.findOne({ orderID: statement.ID });
+        const order = await Order.findOne({ displayID: statement.displayID });
+        if (order && order.isNew) {
+          console.log(`${statement.displayID} is new`);
+        }
         return {
           ...statement,
-          orderDetails: order,
+          eater: order ? order.eater : statement.eater,
+          driver: order ? order.driver : statement.driver,
+          isNew: order ? order.isNew : true,
         };
       })
     );
 
+    // // Save orders to MongoDB
+    for (const orderData of statements) {
+      const existingOrder = await Order.findOne({
+        displayID: orderData.displayID,
+      });
+      if (!existingOrder) {
+        // Fetch order details
+        const orderDetailUrl = `https://api.grab.com/food/merchant/v3/orders/${orderData.ID}`;
+        const orderDetailResponse = await axios.get(orderDetailUrl, {
+          headers: {
+            Authorization: `${grabFoodToken}`,
+          },
+        });
+
+        const orderDetail = orderDetailResponse.data.order;
+
+        const order = new Order({
+          ...orderData,
+          eater: orderDetail.eater || orderData.eater, // Lưu thông tin eater nếu có
+          driver: orderDetail.driver || orderData.driver, // Lưu thông tin driver nếu có
+          isNew: true,
+          lastStatus: orderData.deliveryStatus,
+          username,
+        });
+        await order.save();
+        newOrders.push(order);
+
+        // const user = await User.findOne({ username });
+        // if (user) {
+        //   user.notifications.push({
+        //     title: "Đơn hàng mới",
+        //     message: `Nhận được đơn hàng mới: ${orderData.displayID}`,
+        //     createdAt: new Date(),
+        //     seen: false,
+        //   });
+        //   await user.save();
+        // }
+      } else if (
+        (existingOrder.isNew &&
+          existingOrder.lastStatus !== orderData.deliveryStatus) ||
+        (orderData.deliveryStatus == "COMPLETED" && existingOrder.isNew)
+      ) {
+        updatedOrders.push(orderData);
+        const user = await User.findOne({ username });
+        if (user) {
+          user.notifications.push({
+            title: "Đơn hàng cập nhật",
+            message: `Đơn hàng ${orderData.displayID} được cập nhật: ${orderData.deliveryStatus}`,
+            createdAt: new Date(),
+            seen: false,
+          });
+          await user.save();
+        }
+        existingOrder.isNew = false;
+        existingOrder.lastStatus = orderData.deliveryStatus;
+        await existingOrder.save();
+      }
+    }
+
+    // Sắp xếp danh sách đơn hàng theo thứ tự mới nhất
+    detailedOrders.sort(
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    );
+
     res.json({
-      ...response.data,
-      statements: detailedOrders,
+      message: "Order history fetched successfully",
+      orders: detailedOrders,
+      newOrders,
+      updatedOrders,
     });
   } catch (error) {
+    console.log("Error fetching order history:", error.message);
     res.status(error.response ? error.response.status : 500).json({
       message: "Error fetching order history",
       error: error.message,
@@ -519,12 +852,13 @@ app.get("/order-history", async (req, res) => {
   }
 });
 
-// Route to get order details and save to DB
+module.exports = app;
+
 app.get("/order-details/:orderID", async (req, res) => {
   const { orderID, merchantId } = req.params;
   const grabFoodToken = req.headers["authorization"];
 
-  console.log("Order ID:", orderID, "GrabFood token:", grabFoodToken);
+  //console.log("Order ID:", orderID, "GrabFood token:", grabFoodToken);
   const url = `https://api.grab.com/food/merchant/v3/orders/${orderID}`;
 
   try {

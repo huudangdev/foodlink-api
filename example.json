@@ -1,0 +1,218 @@
+{
+  "order": {
+    "orderID": "425889338-C66JEULFGEEKAT",
+    "driver": {
+      "name": "Ngô Sĩ Huân",
+      "mobileNumber": "+84 8899 9339 4",
+      "latitude": 21.033817,
+      "longitude": 105.854614,
+      "location": {
+        "latitude": 21.033817,
+        "longitude": 105.854614
+      },
+      "avatar": "https://s3-ap-southeast-1.amazonaws.com/myteksi/grab-id/profile_pic/1/-1/lwA_sHs_1NiViM7H1VZxVAjUkhs=_2018/07/16_.jpg"
+    },
+    "eater": {
+      "name": "Abbas",
+      "mobileNumber": "+91 8089 2213 93",
+      "comment": "meet me at the ground floor door",
+      "address": {
+        "address": "31 Hàng Nón, P.Hàng Gai, Q.Hoàn Kiếm, Hà Nội, 10000, Vietnam (No. 31 Hang Hat, Hang Gai, Hoan Kiem, Hanoi. ( Oppos)",
+        "keywords": "31 Hang Non St."
+      }
+    },
+    "itemInfo": {
+      "count": 1,
+      "items": [
+        {
+          "name": "Bún nem",
+          "quantity": 1,
+          "fare": {
+            "currencySymbol": "₫",
+            "priceDisplay": "55.000",
+            "originalItemPriceDisplay": "55.000",
+            "beforeAdjustedPriceDisplay": "55.000"
+          },
+          "comment": "",
+          "modifierGroups": [],
+          "discountInfo": null,
+          "itemID": "5-CZN2A6KHL2UAGA-CZN2A6KJWBMJHE",
+          "editedStatus": 0,
+          "weight": null,
+          "itemCode": "",
+          "specialItemType": "",
+          "soldByWeight": false,
+          "outOfStockInstruction": null,
+          "parentID": "",
+          "parentName": "",
+          "skuID": "",
+          "isAddedAsReplacement": false
+        }
+      ],
+      "merchantItems": null
+    },
+    "fare": {
+      "currencySymbol": "₫",
+      "totalInCent": 0,
+      "adjustmentByDriverInCent": 0,
+      "totalDisplay": "45.000",
+      "subTotalDisplay": "55.000",
+      "taxDisplay": "0",
+      "adjustmentByDriverDisplay": "",
+      "promotionDisplay": "24.000",
+      "deliveryFeeDisplay": "31.000",
+      "passengerTotalDisplay": "62.000",
+      "totalDiscountAmountDisplay": "10.000",
+      "reducedPriceDisplay": "67.600",
+      "revampedSubtotalDisplay": "55.000",
+      "cancelledDisplay": "0",
+      "taxRate": "0.0000",
+      "merchantChargeDisplay": "",
+      "isIncludeMerchantChargeTax": false,
+      "subtotalIncludeMerchantCharge": "55.000",
+      "chargeFeeDescription": {
+        "en": "Restaurant packaging charge",
+        "id": "Biaya kemasan",
+        "ms": "Caj pembungkusan dari restoran",
+        "th": "ค่าบรรจุภัณฑ",
+        "vi": "Phí đồ gói mang về",
+        "zh": "商家包装费"
+      },
+      "smallOrderFeeDisplay": "0",
+      "serviceChargeFeeDisplay": "",
+      "serviceChargeFeeDescription": {
+        "en": "Service charge",
+        "id": "Biaya layanan",
+        "km": "ការគិតថ្លៃលើសេវាកម្ម",
+        "ms": "Caj Perkhidmatan",
+        "my": "ဝန်ဆောင်စရိတ်",
+        "th": "ค่าบริการ",
+        "vi": "Phí dịch vụ",
+        "zh": "服务费"
+      },
+      "daxPayMexFareDisplay": "0",
+      "mexCommissionDisplay": "0"
+    },
+    "times": {
+      "createdAt": "2025-02-06T06:49:05Z",
+      "deliveredAt": "2025-02-06T07:29:09Z",
+      "completedAt": "2025-02-06T07:29:09Z",
+      "expiredAt": "2025-02-06T06:54:05Z",
+      "acceptedAt": "2025-02-06T06:49:16Z",
+      "cancelledAt": null,
+      "readyAt": "2025-02-06T07:20:11Z",
+      "displayedAt": "2025-02-06T07:08:10Z",
+      "driverArriveRestoAt": null,
+      "preparationCompletedAt": "2025-02-06T07:29:09Z"
+    },
+    "state": "ORDER_EXECUTING",
+    "merchant": {
+      "ID": "5-CZN2A6KHL2UAGA"
+    },
+    "deliveryTaskpoolStatus": "FOOD_COLLECTED",
+    "preparationTaskpoolStatus": "COMPLETED",
+    "cancelCode": 412,
+    "displayID": "GF-985",
+    "bookingCode": "A-7FSFQC6GWGSX",
+    "paymentMethod": "Cashless",
+    "acceptedViaCall": false,
+    "acceptedViaAA": true,
+    "acknowledgedForAA": false,
+    "qsrModelType": 2,
+    "hasPromo": true,
+    "receiptAdditionalInfo": {
+      "supportFeatureFlags": {
+        "showCashToCollect": false
+      },
+      "printedCount": 0
+    },
+    "allowComplete": false,
+    "isTakeawayOrder": false,
+    "orderLevelDiscounts": [
+      {
+        "discountType": "order",
+        "discountName": "BOSSCMFH1XJMSIE",
+        "discountAmountDisplay": "10.000",
+        "discountAmountValueInMin": 10000,
+        "isNewPromotion": false
+      }
+    ],
+    "flags": {
+      "showReceiptEaterAddress": false,
+      "showForceCompleteButton": false,
+      "hideOrderDriverInfo": false,
+      "isPrintOrderRevampReceipt": true,
+      "isGrabInitiatedSplitOrder": false,
+      "isAdsMarketingAttributed": true,
+      "isPaxNewCustomer": true,
+      "isPayOnCollect": false,
+      "merchantFeatureFlags": 0
+    },
+    "scheduledOrderInfo": null,
+    "isLargeOrder": false,
+    "isEditable": false,
+    "isOrderEdited": false,
+    "isOrderWithFriends": false,
+    "uneditableReason": 10,
+    "cutlery": 2,
+    "cancelBy": "",
+    "cancelRole": "",
+    "leadsGenData": {
+      "isDeliverByMex": true,
+      "isOrderValueLow": false,
+      "deliveryFee": "",
+      "timeLeftToEnableCompleteButton": 0,
+      "geAllocationStatus": 0,
+      "grabExpressDriver": null,
+      "paxDistanceToMex": 0
+    },
+    "isBusyModeOrder": false,
+    "busyModeOrderPickupTime": "2025-02-06T06:49:05.608054012Z",
+    "busyModeApproach": 0,
+    "payMerchant": false,
+    "cancelledMsg": "",
+    "orderFlags": 4036355576962222084,
+    "orderStatsFlags": 33,
+    "receiptFlags": 0,
+    "dineInInfo": null,
+    "chatroomInfo": {
+      "roomID": "b43ee69bbd3da2b6ef5d6a2c5c42006b",
+      "status": 0
+    },
+    "membershipID": "",
+    "mcorInfo": {
+      "supportMcor": false,
+      "isEditable": false,
+      "correctedOrderReadyAt": null,
+      "estimatedOrderReadyAt": "2025-02-06T07:15:10Z",
+      "driverCloseToPickingUp": false,
+      "maxOrderReadyAt": "2025-02-06T07:53:10Z"
+    },
+    "mexReimbursementInfo": null,
+    "displayHighlights": {
+      "highlightItemCount": false,
+      "missingItemIDs": null
+    },
+    "giftInfo": null,
+    "orderBookings": null,
+    "incidents": {
+      "hasError": false,
+      "data": []
+    },
+    "voucherInfo": null,
+    "stampInfo": {
+      "userConsentMsg": ""
+    },
+    "mexOPT": {
+      "submittedOPTFromMex": 420,
+      "sourceOPT": 1,
+      "isPreparationTaskDelayed": true,
+      "isReadyButtonAbused": false,
+      "actualOPT": null,
+      "estimatedOPTDoneAt": "2025-02-06T07:15:10.5781685Z"
+    },
+    "replacementInfo": null,
+    "isEditableByPax": false,
+    "preparationTaskID": "425889338-C66JEULFGEEKAT-PREP-C66JEULGGPEKAT"
+  }
+}
