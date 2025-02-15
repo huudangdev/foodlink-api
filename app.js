@@ -800,16 +800,16 @@ app.get("/order-history", async (req, res) => {
         await order.save();
         newOrders.push(order);
 
-        // const user = await User.findOne({ username });
-        // if (user) {
-        //   user.notifications.push({
-        //     title: "Đơn hàng mới",
-        //     message: `Nhận được đơn hàng mới: ${orderData.displayID}`,
-        //     createdAt: new Date(),
-        //     seen: false,
-        //   });
-        //   await user.save();
-        // }
+        const user = await User.findOne({ username });
+        if (user) {
+          user.notifications.push({
+            title: "Đơn hàng mới",
+            message: `Nhận được đơn hàng mới: ${orderData.displayID}`,
+            createdAt: new Date(),
+            seen: false,
+          });
+          await user.save();
+        }
       } else if (
         (existingOrder.isNew &&
           existingOrder.lastStatus !== orderData.deliveryStatus) ||
