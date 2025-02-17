@@ -800,32 +800,32 @@ app.get("/order-history", async (req, res) => {
         await order.save();
         newOrders.push(order);
 
-        const user = await User.findOne({ username });
-        if (user) {
-          user.notifications.push({
-            title: "Đơn hàng mới",
-            message: `Nhận được đơn hàng mới: ${orderData.displayID}`,
-            createdAt: new Date(),
-            seen: false,
-          });
-          await user.save();
-        }
+        // const user = await User.findOne({ username });
+        // if (user) {
+        //   user.notifications.push({
+        //     title: "Đơn hàng mới",
+        //     message: `Nhận được đơn hàng mới: ${orderData.displayID}`,
+        //     createdAt: new Date(),
+        //     seen: false,
+        //   });
+        //   await user.save();
+        // }
       } else if (
         (existingOrder.isNew &&
           existingOrder.lastStatus !== orderData.deliveryStatus) ||
-        (orderData.deliveryStatus == "COMPLETED" && existingOrder.isNew)
+        (orderData.deliveryStatus === "COMPLETED" && existingOrder.isNew)
       ) {
         updatedOrders.push(orderData);
-        const user = await User.findOne({ username });
-        if (user) {
-          user.notifications.push({
-            title: "Đơn hàng cập nhật",
-            message: `Đơn hàng ${orderData.displayID} được cập nhật: ${orderData.deliveryStatus}`,
-            createdAt: new Date(),
-            seen: false,
-          });
-          await user.save();
-        }
+        // const user = await User.findOne({ username });
+        // if (user) {
+        //   user.notifications.push({
+        //     title: "Đơn hàng cập nhật",
+        //     message: `Đơn hàng ${orderData.displayID} được cập nhật`,
+        //     createdAt: new Date(),
+        //     seen: false,
+        //   });
+        //   await user.save();
+        // }
         existingOrder.isNew = false;
         existingOrder.lastStatus = orderData.deliveryStatus;
         await existingOrder.save();
