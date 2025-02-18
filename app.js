@@ -49,6 +49,7 @@ const orderSchema = new mongoose.Schema({
     isNew: Boolean,
     lastStatus: String,
     username: String,
+    platform: String,
     driver: {
         ID: Number,
         name: String,
@@ -887,7 +888,62 @@ app.get("/order-history", async(req, res) => {
     }
 });
 
-module.exports = app;
+app.get("/shopeefood/orders", async(req, res) => {
+    const { from_time, to_time, username } = req.query;
+
+    const url = "https://gmerchant.deliverynow.vn/api/v5/order/get_list";
+    const headers = {
+        Host: "gmerchant.deliverynow.vn",
+        Connection: "keep-alive",
+        "x-foody-client-id": "FD4A7D97576E4289A04F3F2DFEAD6A55",
+        "User-Agent": "language=vi app_type=2 shopee-partner appver=33501 (iOS 18.3.1) secid=4002 food_rn_ver=4337 spp_rn_ver=4295 language=vi app_type=2 shopee-partner appver=33501 (iOS 18.3.1) Cronet/102.0.5005.61",
+        "x-foody-access-token": "B:PMixEhsctAnpNUvftKS2sazcQx9r4e8REaQ7SqM7s6PwBo5nmpgGCa0F79/EV0YKD+TjnBwydYBwjmOs8U36060dnR8QI4XyBLoLbaPuNhk=",
+        "x-sf-trace-id": "d3fe7f07c20542b2a08499b2f633cbb2",
+        "1551aaec": "gXHTydgrKUUB8ewONkguJjOEK1aRZVwbmecmCGfTpoSdRxgCl9N25SMhih/Z619NSA5hyFMnZW+1RkKf3v8lmZAajh4lfANF9jO9KKBbSwHDAHFpbMy0JRVIDBhTpPtVOzURFtQCg9NJCllb/3c+4Wyl2qSifMIFKzdtmtI6GG7a8AsVGjxYbCy9kvt71ndZCRgxiSUh0XUdW0FuB1rtuTDGtpAhmXlhNB438PfgomR7QKNW130f/pjghFIMEV0cr/EKbX4XVVzIkEtqlpfzGnzhAxY8DpPNHjQZI9onmPCaXEfriQITjBQkwPjDui0jVPCsVUj6jOYnPNu2kXnIEP+dJdu5MDXnihk9it3jvqZ9weGudvi+zmhZOfE0NkEXGI/crxdGgU6hrfw9AtrcTvnw90w59nYSvaCuvQFAAw8GCgCCPrRAXn/VCeev/6gbe2dNuVp62Kh0CMXyIZrtGoUijVykzR1bfQyKi1MVekEMS4BIwhLT4jF6LzGzoHl3+aOjK7mMQ4b/1WFukhy4LikbJJLzAbngZ+SJ+nDiuWFl8ldUTi75m2QtkK+m778h9afnkpr0S8xywPsypsoHdi0E6TSRH9wh8DfZZftlwXG/vQUh5qJwLNejsthKtvY13Dr9TyvyZ7SM8p4pWEDNsdbG85YkeEJP4v9z7k==",
+        "6f866b98": "uris6ERn1YHSfYcyo7oSGglEtbU=",
+        "x-foody-client-language": "vi",
+        "x-foody-api-version": "1",
+        "72ebdf84": "5BBeAwEva42UyKyeSzmky9agoS/=",
+        "x-foody-app-type": "1024",
+        "x-foody-client-type": "1",
+        "x-sf-request-id": "79d354f7253e4267979d0b90b5838368",
+        "x-foody-entity-id": "10050438",
+        "SPC-B-OFT": "eyJkYXRhIjoiU2psRGlVYkFaM2h0UGFQWU9vVDdqWXIvVmhMcDdnd3Y5WmdWbkNqb3lNSzJLRER2TjYrRHNFV1g2blppMnp4T0lsYWVqdXJnV1dwcjY0RUU1bkwvV0hmakplT29DRlh3NC85Z1A1N01hRTQ9IiwiaXYiOiJ6ZkxFSWtiSE1YNGRuemJRRnYxN1dBPT0iLCJzaWduIjoiU0hGSEh0TmdvUEVDeTdzZHUzOStRYkpxVDJGUzRTckZrcEFQaTFKQ0lqQkRjdXhHVTRTNWNNV0t0ZStXWWpUQjBaWTZvRWNvV081MVBnbWlzaWcyQ1E9PSJ9",
+        "x-sap-ri": "8772b4673f459cd0c4d98524013bb93f1e090d9fe554608fc05f",
+        "operate-source": "partnerapp",
+        Accept: "application/json, text/plain, */*",
+        "x-foody-client-version": "3.0.0",
+        "9fb0a816": "rK7A/gxfEn9pRQy5MTaLl4jSEut=",
+        "Accept-Language": "vi-VN,vi,fr-FR,fr,en-US,en",
+        "Content-Type": "application/json;charset=utf-8",
+    };
+
+    const data = {
+        order_filter_type: 40,
+        next_item_id: "",
+        request_count: 10,
+        from_time: from_time || 1739293200, // Thay thế bằng giá trị mặc định nếu không có
+        to_time: to_time || 1739897999, // Thay thế bằng giá trị mặc định nếu không có
+        sort_type: 12,
+    };
+
+    try {
+        const response = await axios.post(url, data, { headers });
+
+        const orders = response.data; // Giả sử phản hồi chứa danh sách đơn hàng
+
+        res.json({
+            message: "ShopeeFood orders fetched successfully",
+            orders,
+        });
+    } catch (error) {
+        console.error("Error fetching ShopeeFood orders:", error.message);
+        res.status(error.response ? error.response.status : 500).json({
+            message: "Error fetching ShopeeFood orders",
+            error: error.message,
+        });
+    }
+});
 
 app.get("/order-details/:orderID", async(req, res) => {
     const { orderID, merchantId } = req.params;
@@ -1077,7 +1133,6 @@ app.delete("/logout-step-2", (req, res) => {
     });
 });
 
-// Start the server
-app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running at http://localhost:${PORT}`);
+app.listen(3000, "0.0.0.0", () => {
+    console.log("Server is running on port 3000");
 });

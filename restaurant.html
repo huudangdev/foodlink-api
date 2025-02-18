@@ -1,57 +1,73 @@
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Grabfood</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 20px;
-      }
-      .invoice {
-        width: 300px;
-        border: 1px solid #000;
-        padding: 15px;
-        line-height: 1.5;
-      }
-      .center {
-        text-align: center;
-      }
-      .bold {
-        font-weight: bold;
-      }
-      .note {
-        font-size: 0.9em;
-      }
-      .line {
-        border-bottom: 1px dashed #000;
-        margin: 10px 0;
-      }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            width: 210mm;
+            /* Kích thước chuẩn của hoá đơn */
+            height: 297mm;
+            /* Kích thước chuẩn của hoá đơn */
+        }
+        
+        .invoice {
+            width: 100%;
+            border: 1px solid #000;
+            padding: 15px;
+            line-height: 1.5;
+        }
+        
+        .center {
+            text-align: center;
+        }
+        
+        .bold {
+            font-weight: bold;
+            font-size: 1.9em;
+        }
+        
+        .note {
+            font-size: 0.9em;
+        }
+        
+        .line {
+            border-bottom: 1px dashed #000;
+            margin: 10px 0;
+        }
     </style>
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="invoice">
-      <div class="center bold">GrabFood</div>
-      <div class="center bold">GF-889</div>
-      <div class="line"></div>
-      <p>Lay don luc: <span class="bold">5/1/2025, 12:45:24</span></p>
-      <p>Don cua: ***</p>
-      <p class="bold">Khach hang moi</p>
-      <div class="line"></div>
-      <p>1 mon</p>
-      <ul class="note">
-        <li>Can dung cu an uong</li>
-        <li>
-          Doi voi nhung mon da het, vui long xem ghi chu cua khach hang tren ung
-          dung
-        </li>
-      </ul>
+        <div>GrabFood</div>
+        <div class="bold">GF-889</div>
+        <p class="note">Lấy đơn lúc: <span>5/1/2025, 12:45:24</span></p>
+        <p>Đơn của: ***</p>
+        <p>--------------------- 1 món -----------------------</p>
 
-      <p><span class="bold">1 x Ca phe sua - chai 330ml</span> ()</p>
 
-      <div class="line"></div>
-      <p>Da dat luc: 5/1/2025, 12:45:15</p>
-      <p>Duoc giao boi: ***</p>
+        <p>Cần dụng cụ ăn uống</p>
+        <p>
+            * Đối với những món đã hết, vui lòng xem ghi chú của khách hàng trên ứng dụng
+        </p>
+
+
+        <p><span>1 x Cà phê sữa - chai 330ml</span> ()</p>
+        <p>------------------------------------------------------</p>
+
+        <p>Tổng (tạm tính) 15.000đ</p>
+        <p>Tổng cộng 15.000đ</p>
+
+        <p>--------------------- GF-889 -----------------------</p>
+
+        <p>Đã đặt lúc: 5/1/2025, 12:45:15</p>
+        <p>Được giao bởi: ***</p>
+        <p>Ghi chú cho ***: Vui lòng kiểm tra hoá đơn của đơn hàng trên ứng dụng để biết giá tiền chính xác</p>
     </div>
-  </body>
+</body>
+
 </html>
